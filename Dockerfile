@@ -39,17 +39,19 @@ ARG max_jobs
 ENV MAX_JOBS=${max_jobs}
 
 # Install build and runtime dependencies from unlocked requirements
-COPY requirements-common.txt requirements-common.txt
-COPY requirements-cuda.txt requirements-cuda.txt
+#COPY requirements-common.txt requirements-common.txt
+#COPY requirements-cuda.txt requirements-cuda.txt
+#RUN --mount=type=cache,target=/root/.cache/pip \
+#    pip uninstall pynvml -y
+#RUN --mount=type=cache,target=/root/.cache/pip \
+#    pip install -r requirements-cuda.txt
+
+# Install build and runtime dependencies from frozen requirements
+COPY requirements-cuda-freeze.txt requirements-cuda-freeze.txt
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip uninstall pynvml -y
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r requirements-cuda.txt
-
-# Install build and runtime dependencies from frozen requirements
-#COPY requirements-cuda-freeze.txt requirements-cuda-freeze.txt
-#RUN --mount=type=cache,target=/root/.cache/pip \
-#    pip install --no-deps -r requirements-cuda-freeze.txt
+    pip install --no-deps -r requirements-cuda-freeze.txt
 
 RUN mkdir vllm-aarch64-whl
 
@@ -152,20 +154,22 @@ RUN apt-get update -y \
 #RUN ldconfig /usr/local/cuda-$(echo $CUDA_VERSION | cut -d. -f1,2)/compat/
 
 # Install build and runtime dependencies from unlocked requirements
-COPY requirements-common.txt requirements-common.txt
-COPY requirements-cuda.txt requirements-cuda.txt
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip uninstall pynvml -y
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r requirements-cuda.txt
+#COPY requirements-common.txt requirements-common.txt
+#COPY requirements-cuda.txt requirements-cuda.txt
+#RUN --mount=type=cache,target=/root/.cache/pip \
+#    pip uninstall pynvml -y
+#RUN --mount=type=cache,target=/root/.cache/pip \
+#    pip install -r requirements-cuda.txt
 
 # Freeze the requirements, use this to update the requirements-cuda-freeze.txt to reproduce the same environment
 RUN pip list --format freeze > /opt/requirements-cuda-freeze.txt
 
 # Install build and runtime dependencies from frozen requirements
-#COPY requirements-cuda-freeze.txt requirements-cuda-freeze.txt
-#RUN --mount=type=cache,target=/root/.cache/pip \
-#    pip install --no-deps -r requirements-cuda-freeze.txt
+COPY requirements-cuda-freeze.txt requirements-cuda-freeze.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip uninstall pynvml -y
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-deps -r requirements-cuda-freeze.txt
 
 RUN --mount=type=bind,from=base,src=/workspace/vllm-aarch64-whl,target=/workspace/vllm-aarch64-whl \
     --mount=type=cache,target=/root/.cache/pip \

@@ -78,7 +78,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 RUN --mount=type=cache,target=/root/.cache/pip \
 	git clone https://github.com/flashinfer-ai/flashinfer.git ; git checkout v0.1.6 ; cd flashinfer/python ; pip --verbose wheel --use-pep517 --no-deps -w /workspace/vllm-aarch64-whl --no-build-isolation --no-cache-dir .
 
-# This is a test.
+# Install dependencies.
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install /workspace/vllm-aarch64-whl/*.whl --no-cache-dir --no-deps
 
@@ -162,7 +162,7 @@ RUN apt-get update -y \
 #    pip install -r requirements-cuda.txt
 
 # Freeze the requirements, use this to update the requirements-cuda-freeze.txt to reproduce the same environment
-RUN pip list --format freeze > /opt/requirements-cuda-freeze.txt
+#RUN pip list --format freeze > /opt/requirements-cuda-freeze.txt
 
 # Install build and runtime dependencies from frozen requirements
 COPY requirements-cuda-freeze.txt requirements-cuda-freeze.txt

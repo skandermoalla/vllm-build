@@ -2,9 +2,9 @@
 # to run the OpenAI compatible server.
 
 # Example to build on 4xGH200 node.
-# podman build --build-arg max_jobs=64 --build-arg nvcc_threads=8  --target vllm-base --tag vllm:v0.6.2-$(git rev-parse --short HEAD)-arm64-cuda-gh200 .
+# podman build --build-arg max_jobs=64 --build-arg nvcc_threads=8  --target vllm-base --tag vllm:v0.6.3.post1-$(git rev-parse --short HEAD)-arm64-cuda-gh200 .
 # Example to build on 24 core node.
-# docker build --build-arg max_jobs=12 --build-arg nvcc_threads=4  --target vllm-base --tag vllm:v0.6.2-$(git rev-parse --short HEAD)-amd64-cuda-a100-h100 .
+# docker build --build-arg max_jobs=14 --build-arg nvcc_threads=6  --target vllm-base --tag vllm:v0.6.3.post1-$(git rev-parse --short HEAD)-amd64-cuda-a100-h100 .
 
 
 #################### BASE BUILD IMAGE ####################

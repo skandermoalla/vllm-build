@@ -37,6 +37,7 @@ RUN pip uninstall pynvml -y
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements-cuda.txt
 
+RUN pip uninstall opencv  # Quick fix. Already installed as opencv-python-headless
 RUN pip list --format freeze > /opt/requirements-cuda-freeze.txt
 
 # Install build and runtime dependencies from frozen requirements

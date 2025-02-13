@@ -1,4 +1,5 @@
 ```bash
+git remote add vllm-remote git@github.com:vllm-project/vllm.git
 git fetch --tags vllm-remote
 
 git checkout old-version

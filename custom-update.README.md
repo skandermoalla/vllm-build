@@ -2,10 +2,10 @@
 git remote add vllm-remote git@github.com:vllm-project/vllm.git
 git fetch --tags vllm-remote
 
-git checkout old-version
+git checkout <old-version>
 git checkout -b freeze-old-version
 
-git checkout new-version
+git checkout <new-version>
 git checkout -b freeze-new-version
 
 # Diff with PyCharm
